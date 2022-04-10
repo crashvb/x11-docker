@@ -31,21 +31,21 @@ ENV \
 RUN ln --symbolic /usr/share/novnc/vnc_auto.html /usr/share/novnc/index.html
 
 # Configure: supervisor
-ADD supervisord.fluxbox.conf /etc/supervisor/conf.d/30fluxbox.conf
-ADD supervisord.x11vnc.conf /etc/supervisor/conf.d/40x11vnc.conf
-ADD supervisord.xvfb.conf /etc/supervisor/conf.d/20xvfb.conf
-ADD supervisord.websockify.conf /etc/supervisor/conf.d/50websockify.conf
+COPY supervisord.fluxbox.conf /etc/supervisor/conf.d/30fluxbox.conf
+COPY supervisord.x11vnc.conf /etc/supervisor/conf.d/40x11vnc.conf
+COPY supervisord.xvfb.conf /etc/supervisor/conf.d/20xvfb.conf
+COPY supervisord.websockify.conf /etc/supervisor/conf.d/50websockify.conf
 
 # Configure: entrypoint
-ADD entrypoint.fluxbox /etc/entrypoint.d/fluxbox
-ADD entrypoint.websockify /etc/entrypoint.d/websockify
-ADD entrypoint.x11 /etc/entrypoint.d/x11
-ADD entrypoint.x11vnc /etc/entrypoint.d/x11vnc
+COPY entrypoint.fluxbox /etc/entrypoint.d/fluxbox
+COPY entrypoint.websockify /etc/entrypoint.d/websockify
+COPY entrypoint.x11 /etc/entrypoint.d/x11
+COPY entrypoint.x11vnc /etc/entrypoint.d/x11vnc
 
 # Configure: healthcheck
-ADD healthcheck.fluxbox /etc/healthcheck.d/fluxbox
-ADD healthcheck.x11vnc /etc/healthcheck.d/x11vnc
-ADD healthcheck.xvfb /etc/healthcheck.d/xvfb
-ADD healthcheck.websockify /etc/healthcheck.d/websockify
+COPY healthcheck.fluxbox /etc/healthcheck.d/fluxbox
+COPY healthcheck.x11vnc /etc/healthcheck.d/x11vnc
+COPY healthcheck.xvfb /etc/healthcheck.d/xvfb
+COPY healthcheck.websockify /etc/healthcheck.d/websockify
 
 EXPOSE 5800/tcp 5900/tcp

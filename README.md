@@ -1,5 +1,10 @@
 # x11-docker
 
+[![version)](https://img.shields.io/docker/v/crashvb/x11/latest)](https://hub.docker.com/repository/docker/crashvb/x11)
+[![image size](https://img.shields.io/docker/image-size/crashvb/x11/latest)](https://hub.docker.com/repository/docker/crashvb/x11)
+[![linting](https://img.shields.io/badge/linting-hadolint-yellow)](https://github.com/hadolint/hadolint)
+[![license](https://img.shields.io/github/license/crashvb/x11-docker.svg)](https://github.com/crashvb/x11-docker/blob/master/LICENSE.md)
+
 ## Overview
 
 This docker image contains:
@@ -26,7 +31,7 @@ The following environment variables can be defined for containers:
 
  | Variable | Default Value | Description |
  | -------- | ------------- | ----------- |
- | DISPLAY | _&lt;number\_display>_._&lt;number\_screen&gt;_ | The X11 display to which client applications will connect.
+ | DISPLAY | _&lt;number\_display&gt;_._&lt;number\_screen&gt;_ | The X11 display to which client applications will connect.
  | DISPLAY\_GEOMETRY | _&lt;display\_width&gt;_x_&lt;display\_height&gt;_ | The geometry of the X server.
  | NUMBER\_DISPLAY | _&lt;number\_display&gt;_ | The display number used by the X server.
  | NUMBER\_SCREEN | _&lt;number\_screen&gt;_ | The screen number used by the X server.
