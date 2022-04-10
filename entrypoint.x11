@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+# Configure: x11
+if [[ ! -e $EP_RUN ]] ; then
+	log "Configuring $(basename $0) for first run ..."
+
+        # Initialize Xauthority ...
+	xauthority=~root/.Xauthority
+	if [[ ! -e "${xauthority}" ]] ; then
+        	log "Generating: .Xauthority ..."
+        	xauthority=~root/.Xauthority
+        	install --group=root --mode=0600 --owner=root /dev/null "${xauthority}"
+		xauth source - <<- EOF
+			add :${NUMBER_DISPLAY} . $(mcookie)
+		EOF
+		#xauth add "$(hostname):${NUMBER_DISPLAY}" . $(mcookie)
+	else
+		log "Using existing .Xauthority cookies: ${xauthority} ..."
+	fi
+fi
+

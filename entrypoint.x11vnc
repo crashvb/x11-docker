@@ -1,0 +1,82 @@
+#!/bin/bash
+
+set -e
+
+# Configure: x11vnc
+if [[ ! -e $EP_RUN ]] ; then
+	log "Configuring $(basename $0) for first run ..."
+
+	# Note: Key size must be >= 3072 for "HIGH" security:
+	export X11VNC_CERT_DAYS=${X11VNC_CERT_DAYS:-30}
+	export X11VNC_KEY_SIZE=${X11VNC_KEY_SIZE:-4096}
+
+	# Generate keypairs ...
+	if [[ -e $EP_SECRETS_ROOT/x11vncca.crt && -e $EP_SECRETS_ROOT/x11vnc.crt && -e $EP_SECRETS_ROOT/x11vnc.key ]] ; then
+		log "Importing x11vncca.crt, x11vnc.crt, and x11vnc.key from secrets ..."
+	else
+		log "Generating x11vncca.crt, x11vnc.crt, and x11vnc.key in secrets ..."
+
+		log "   certificate authority"
+		openssl genrsa \
+			-out /dev/shm/x11vncca.key \
+			$X11VNC_KEY_SIZE
+		openssl req \
+			-days $X11VNC_CERT_DAYS \
+			-key /dev/shm/x11vncca.key \
+			-new \
+			-nodes \
+			-out $EP_SECRETS_ROOT/x11vncca.crt \
+			-sha256 \
+			-subj "/CN=x11vnc ca" \
+			-x509
+
+		log "   server certificate"
+		openssl genrsa \
+			-out $EP_SECRETS_ROOT/x11vnc.key \
+			$X11VNC_KEY_SIZE
+		openssl req \
+			-key $EP_SECRETS_ROOT/x11vnc.key \
+			-new \
+			-nodes \
+			-out /dev/shm/x11vnc.csr \
+			-sha256 \
+			-subj "/CN=x11vnc server"
+		openssl x509 \
+			-CA $EP_SECRETS_ROOT/x11vncca.crt \
+			-CAkey /dev/shm/x11vncca.key \
+			-CAcreateserial \
+			-days $X11VNC_CERT_DAYS \
+			-in /dev/shm/x11vnc.csr \
+			-out $EP_SECRETS_ROOT/x11vnc.crt \
+			-req \
+			-sha256
+
+		rm /dev/shm/{x11vncca.key,x11vnc.csr} $EP_SECRETS_ROOT/x11vncca.srl
+
+	fi
+	install --group=ssl-cert --mode=0640 --owner=root $EP_SECRETS_ROOT/x11vnc.key /etc/ssl/private/
+	install --group=root --mode=0644 --owner=root $EP_SECRETS_ROOT/x11vnc{,ca}.crt /etc/ssl/certs/
+
+	# x11vnc.p12
+	install --group=root --mode=0640 --owner=root /dev/null /etc/ssl/private/x11vnc.p12
+	#cat /etc/ssl/private/x11vnc.key /etc/ssl/certs/x11vnc{ca,}.crt > /etc/ssl/private/x11vnc.p12
+	cat /etc/ssl/private/x11vnc.key /etc/ssl/certs/x11vnc.crt > /etc/ssl/private/x11vnc.p12
+
+	ln --symbolic /etc/ssl/certs/x11vncca.crt /usr/share/ca-certificates/
+	echo x11vncca.crt >> /etc/ca-certificates.conf
+	update-ca-certificates
+
+	# x11vnc.passwd ...
+	x11vnc_passwd=~root/x11vnc.passwd
+	if [[ ! -e "${x11vnc_passwd}" ]] ; then
+		log "Generating: x11vnc.passwd ..."
+
+		generate_password "x11vnc"
+
+		install --group=root --mode=0640 --owner=root /dev/null "${x11vnc_passwd}"
+		/usr/bin/x11vnc --storepasswd ${X11VNC_PASSWORD} "${x11vnc_passwd}"
+	else
+		log "Using existing password(s) for x11vnc: ${x11vnc_passwd} ..."
+	fi
+fi
+

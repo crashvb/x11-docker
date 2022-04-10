@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e -o pipefail
+
+if [[ -n ${ENABLE_NOVNC} ]] ; then
+	log "Checking if $(basename $0) is healthy ..."
+	[[ $(pgrep --count --full /usr/bin/websockify) -gt 0 ]]
+else
+	log "Skipping $(basename $0) check ..."
+	exit 0
+fi
+

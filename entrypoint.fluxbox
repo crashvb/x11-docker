@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+# Configure: fluxbox
+if [[ ! -e $EP_RUN ]] ; then
+	log "Configuring $(basename $0) for first run ..."
+
+	if [[ -z ${ENABLE_FLUXBOX} ]] ; then
+		log "Disabling: fluxbox ..."
+		rm --force /etc/supervisor/conf.d/30fluxbox.conf
+	fi
+fi
+

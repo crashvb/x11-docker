@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+# Configure: websockify
+if [[ ! -e $EP_RUN ]] ; then
+	log "Configuring $(basename $0) for first run ..."
+
+	if [[ -z ${ENABLE_NOVNC} ]] ; then
+		log "Disabling: websockify ..."
+		rm --force /etc/supervisor/conf.d/50websockify.conf
+	fi
+fi
+
