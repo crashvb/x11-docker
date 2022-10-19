@@ -25,12 +25,15 @@ ENV \
 	DISPLAY=":${number_display}.${number_screen}" \
 	DISPLAY_GEOMETRY="${display_width}x${display_height}" \
 	NUMBER_DISPLAY="${number_display}" \
-	NUMBER_SCREEN="${number_screen}"
+	NUMBER_SCREEN="${number_screen}" \
+	X11_GNAME=root \
+	X11_UNAME=root
 
 # Configure: novnc
 RUN ln --symbolic /usr/share/novnc/vnc_auto.html /usr/share/novnc/index.html
 
 # Configure: supervisor
+COPY run-as-x11-user /usr/local/bin/
 COPY supervisord.fluxbox.conf /etc/supervisor/conf.d/30fluxbox.conf
 COPY supervisord.x11vnc.conf /etc/supervisor/conf.d/40x11vnc.conf
 COPY supervisord.xvfb.conf /etc/supervisor/conf.d/20xvfb.conf

@@ -6,13 +6,13 @@ set -e
 if [[ ! -e $EP_RUN ]] ; then
 	log "Configuring $(basename $0) for first run ..."
 
-        # Initialize Xauthority ...
-	xauthority=~root/.Xauthority
+	# Initialize Xauthority ...
+	userhome=$(eval echo ~${X11_UNAME})
+	xauthority=${userhome}/.Xauthority
 	if [[ ! -e "${xauthority}" ]] ; then
-        	log "Generating: .Xauthority ..."
-        	xauthority=~root/.Xauthority
-        	install --group=root --mode=0600 --owner=root /dev/null "${xauthority}"
-		xauth source - <<- EOF
+		log "Generating: .Xauthority ..."
+		install --group=${X11_GNAME} --mode=0600 --owner=${X11_UNAME} /dev/null "${xauthority}"
+		su --command="xauth source -" --login ${X11_UNAME} <<- EOF
 			add :${NUMBER_DISPLAY} . $(mcookie)
 		EOF
 		#xauth add "$(hostname):${NUMBER_DISPLAY}" . $(mcookie)

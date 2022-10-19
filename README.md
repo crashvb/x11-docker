@@ -35,10 +35,12 @@ The following environment variables can be defined for containers:
  | DISPLAY\_GEOMETRY | _&lt;display\_width&gt;_x_&lt;display\_height&gt;_ | The geometry of the X server.
  | NUMBER\_DISPLAY | _&lt;number\_display&gt;_ | The display number used by the X server.
  | NUMBER\_SCREEN | _&lt;number\_screen&gt;_ | The screen number used by the X server.
+ | X11\_GNAME | root | The group under which the X server is running.
+ | X11\_UNAME | root | The user under which the X server is running.
 
 ## Forwarding a window(s) to the embedded X server
 
-These steps assume that we are forwarding `xclock` from the docker host using to the embedded X server, in a container named `x11-SNAPSHOT`, using display `25.0` externally, and display `27.0` inside of the container.
+These steps assume that we are forwarding `xclock` from the docker host to the embedded X server, in a container named `x11-SNAPSHOT`, using display `25.0` externally, and display `27.0` inside of the container.
 
 1. Determine the port number to expose and port number as which to publish it. X11 ports start at `6000` (e.g. DISPLAY=27.0 --> port 6027), so for this example we would run the container with the `--publish=6025:6027/tcp` argument.
 2. Retrieve the magic cookie from the container:
@@ -142,7 +144,7 @@ The embedded healthcheck script is located at `/etc/healthcheck.d/xvfb` and perf
 │     ├─ websockify
 │     ├─ x11vnc
 │     └─ xvfb
-├─ root/
+├─ _~<X11_UNAME>/
 │  └─ .Xauthority
 ├─ run/
 │  └─ secrets/

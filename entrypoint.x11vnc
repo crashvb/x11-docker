@@ -16,7 +16,7 @@ if [[ ! -e $EP_RUN ]] ; then
 	else
 		log "Generating x11vncca.crt, x11vnc.crt, and x11vnc.key in secrets ..."
 
-		log "   certificate authority"
+		log "	certificate authority"
 		openssl genrsa \
 			-out /dev/shm/x11vncca.key \
 			$X11VNC_KEY_SIZE
@@ -30,7 +30,7 @@ if [[ ! -e $EP_RUN ]] ; then
 			-subj "/CN=x11vnc ca" \
 			-x509
 
-		log "   server certificate"
+		log "	server certificate"
 		openssl genrsa \
 			-out $EP_SECRETS_ROOT/x11vnc.key \
 			$X11VNC_KEY_SIZE
@@ -54,11 +54,11 @@ if [[ ! -e $EP_RUN ]] ; then
 		rm /dev/shm/{x11vncca.key,x11vnc.csr} $EP_SECRETS_ROOT/x11vncca.srl
 
 	fi
-	install --group=ssl-cert --mode=0640 --owner=root $EP_SECRETS_ROOT/x11vnc.key /etc/ssl/private/
-	install --group=root --mode=0644 --owner=root $EP_SECRETS_ROOT/x11vnc{,ca}.crt /etc/ssl/certs/
+	install --group=ssl-cert --mode=0640 --owner=${X11_UNAME} $EP_SECRETS_ROOT/x11vnc.key /etc/ssl/private/
+	install --group=${X11_GNAME} --mode=0644 --owner=${X11_UNAME} $EP_SECRETS_ROOT/x11vnc{,ca}.crt /etc/ssl/certs/
 
 	# x11vnc.p12
-	install --group=root --mode=0640 --owner=root /dev/null /etc/ssl/private/x11vnc.p12
+	install --group=${X11_GNAME} --mode=0640 --owner=${X11_UNAME} /dev/null /etc/ssl/private/x11vnc.p12
 	#cat /etc/ssl/private/x11vnc.key /etc/ssl/certs/x11vnc{ca,}.crt > /etc/ssl/private/x11vnc.p12
 	cat /etc/ssl/private/x11vnc.key /etc/ssl/certs/x11vnc.crt > /etc/ssl/private/x11vnc.p12
 
@@ -67,13 +67,14 @@ if [[ ! -e $EP_RUN ]] ; then
 	update-ca-certificates
 
 	# x11vnc.passwd ...
-	x11vnc_passwd=~root/x11vnc.passwd
+	userhome=$(eval echo ~${X11_UNAME})
+	x11vnc_passwd=${userhome}/x11vnc.passwd
 	if [[ ! -e "${x11vnc_passwd}" ]] ; then
 		log "Generating: x11vnc.passwd ..."
 
 		generate_password "x11vnc"
 
-		install --group=root --mode=0640 --owner=root /dev/null "${x11vnc_passwd}"
+		install --group=${X11_GNAME} --mode=0640 --owner=${X11_UNAME} /dev/null "${x11vnc_passwd}"
 		/usr/bin/x11vnc --storepasswd ${X11VNC_PASSWORD} "${x11vnc_passwd}"
 	else
 		log "Using existing password(s) for x11vnc: ${x11vnc_passwd} ..."
