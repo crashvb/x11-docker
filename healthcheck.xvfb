@@ -3,5 +3,5 @@
 set -e -o pipefail
 
 log "Checking if $(basename $0) is healthy ..."
-[[ "X$(pgrep --count --full /usr/bin/Xvfb)" = "X1" ]]
+[[ $(pgrep --count --full /usr/bin/Xvfb) -gt 0 ]]
 
