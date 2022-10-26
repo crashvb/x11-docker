@@ -139,12 +139,18 @@ The embedded healthcheck script is located at `/etc/healthcheck.d/xvfb` and perf
 │  ├─ entrypoint.d/
 │  │  ├─ x11
 │  │  └─ x11vnc
-│  └─ healthcheck.d/
-│     ├─ fluxbox
-│     ├─ websockify
-│     ├─ x11vnc
-│     └─ xvfb
-├─ _~<X11_UNAME>/
+│  ├─ healthcheck.d/
+│  │  ├─ fluxbox
+│  │  ├─ websockify
+│  │  ├─ x11vnc
+│  │  └─ xvfb
+│  └─ supervisor/
+│     └─ config.d/
+│        ├─ 20xvfb.conf
+│        ├─ 30fluxbox.conf
+│        ├─ 40x11vnc.conf
+│        └─ 50websockify.conf
+├─ _~<X11_UNAME>_/
 │  └─ .Xauthority
 ├─ run/
 │  └─ secrets/

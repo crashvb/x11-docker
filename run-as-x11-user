@@ -3,6 +3,6 @@
 # Note: This is needed because supervisord:
 #	1. Does not populate login environment variables (e.g. HOME) when performing setuid.
 #	2. Does not support dynamically evaluating environment variable (i.e "HOME=/root" vs "HOME=/home/user").
-#	3. There is no need to re-implemented what "su" already does.
+#	3. There is no need to re-implement what "su" already does.
 exec /bin/su --command="$*" --login "${X11_UNAME}"
 
