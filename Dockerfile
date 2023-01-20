@@ -1,10 +1,10 @@
-FROM crashvb/supervisord:202201080446@sha256:8fe6a411bea68df4b4c6c611db63c22f32c4a455254fa322f381d72340ea7226
+FROM crashvb/supervisord:202301200011@sha256:00ce62402496ffa71b97a8775c861836165ab197eabc6b9b515a3a4837b2fb5d
 ARG org_opencontainers_image_created=undefined
 ARG org_opencontainers_image_revision=undefined
 LABEL \
 	org.opencontainers.image.authors="Richard Davis <crashvb@gmail.com>" \
-	org.opencontainers.image.base.digest="sha256:8fe6a411bea68df4b4c6c611db63c22f32c4a455254fa322f381d72340ea7226" \
-	org.opencontainers.image.base.name="crashvb/supervisord:202201080446" \
+	org.opencontainers.image.base.digest="sha256:00ce62402496ffa71b97a8775c861836165ab197eabc6b9b515a3a4837b2fb5d" \
+	org.opencontainers.image.base.name="crashvb/supervisord:202301200011" \
 	org.opencontainers.image.created="${org_opencontainers_image_created}" \
 	org.opencontainers.image.description="Image containing fluxbox, novnc, x11vnc, and xvfb." \
 	org.opencontainers.image.licenses="Apache-2.0" \
