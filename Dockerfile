@@ -1,10 +1,10 @@
-FROM crashvb/supervisord:202301200011@sha256:00ce62402496ffa71b97a8775c861836165ab197eabc6b9b515a3a4837b2fb5d
+FROM crashvb/supervisord:202302050228@sha256:0b016ca9fec7347e9aaf256fa4addbb4d463204bb3b5b84141f68954f20d85c8
 ARG org_opencontainers_image_created=undefined
 ARG org_opencontainers_image_revision=undefined
 LABEL \
 	org.opencontainers.image.authors="Richard Davis <crashvb@gmail.com>" \
-	org.opencontainers.image.base.digest="sha256:00ce62402496ffa71b97a8775c861836165ab197eabc6b9b515a3a4837b2fb5d" \
-	org.opencontainers.image.base.name="crashvb/supervisord:202301200011" \
+	org.opencontainers.image.base.digest="sha256:0b016ca9fec7347e9aaf256fa4addbb4d463204bb3b5b84141f68954f20d85c8" \
+	org.opencontainers.image.base.name="crashvb/supervisord:202302050228" \
 	org.opencontainers.image.created="${org_opencontainers_image_created}" \
 	org.opencontainers.image.description="Image containing fluxbox, novnc, x11vnc, and xvfb." \
 	org.opencontainers.image.licenses="Apache-2.0" \
@@ -30,7 +30,7 @@ ENV \
 	X11_UNAME=root
 
 # Configure: novnc
-RUN ln --symbolic /usr/share/novnc/vnc_auto.html /usr/share/novnc/index.html
+RUN ln --symbolic /usr/share/novnc/vnc.html /usr/share/novnc/index.html
 
 # Configure: supervisor
 COPY run-as-x11-user /usr/local/bin/
