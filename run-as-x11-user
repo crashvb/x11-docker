@@ -4,5 +4,5 @@
 #	1. Does not populate login environment variables (e.g. HOME) when performing setuid.
 #	2. Does not support dynamically evaluating environment variable (i.e "HOME=/root" vs "HOME=/home/user").
 #	3. There is no need to re-implement what "su" already does.
-exec /bin/su --command="${DISPLAY:+DISPLAY=$DISPLAY }$*" --login "${X11_UNAME}"
+exec /bin/su --command="${DISPLAY:+DISPLAY="${DISPLAY}" }$*" --login "${X11_UNAME}"
 

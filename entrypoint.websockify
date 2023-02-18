@@ -1,12 +1,12 @@
 #!/bin/bash
 
-set -e
+set -e -o pipefail
 
 # Configure: websockify
-if [[ ! -e $EP_RUN ]] ; then
-	log "Configuring $(basename $0) for first run ..."
+if [[ ! -e "${EP_RUN}" ]] ; then
+	log "Configuring $(basename "${0}") for first run ..."
 
-	if [[ -z ${ENABLE_NOVNC} ]] ; then
+	if [[ -z "${ENABLE_NOVNC}" ]] ; then
 		log "Disabling: websockify ..."
 		rm --force /etc/supervisor/conf.d/50websockify.conf
 	fi

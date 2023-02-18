@@ -100,8 +100,6 @@ The embedded entrypoint script is located at `/etc/entrypoint.d/x11vnc` and perf
 
  | Variable | Default Value | Description |
  | -------- | ------------- | ----------- |
- | X11VNC\_CERT\_DAYS | 30 | Validity period of any generated PKI certificates. |
- | X11VNC\_KEY\_SIZE | 4096 | Key size of any generated PKI keys. |
 
 ## Healthcheck Scripts
 

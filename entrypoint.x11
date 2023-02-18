@@ -1,21 +1,21 @@
 #!/bin/bash
 
-set -e
+set -e -o pipefail
 
 # Configure: x11
-if [[ ! -e $EP_RUN ]] ; then
-	log "Configuring $(basename $0) for first run ..."
+if [[ ! -e "${EP_RUN}" ]] ; then
+	log "Configuring $(basename "${0}") for first run ..."
 
 	# Initialize Xauthority ...
-	userhome=$(eval echo ~${X11_UNAME})
-	xauthority=${userhome}/.Xauthority
+	userhome=$(eval echo ~"${X11_UNAME}")
+	xauthority="${userhome}/.Xauthority"
 	if [[ ! -e "${xauthority}" ]] ; then
 		log "Generating: .Xauthority ..."
-		install --group=${X11_GNAME} --mode=0600 --owner=${X11_UNAME} /dev/null "${xauthority}"
-		su --command="xauth source -" --login ${X11_UNAME} <<- EOF
+		install --group="${X11_GNAME}" --mode=0600 --owner="${X11_UNAME}" /dev/null "${xauthority}"
+		su --command="xauth source -" --login "${X11_UNAME}" <<- EOF
 			add :${NUMBER_DISPLAY} . $(mcookie)
 		EOF
-		#xauth add "$(hostname):${NUMBER_DISPLAY}" . $(mcookie)
+		#xauth add "$(hostname):${NUMBER_DISPLAY}" . "$(mcookie)"
 	else
 		log "Using existing .Xauthority cookies: ${xauthority} ..."
 	fi
