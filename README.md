@@ -101,32 +101,6 @@ The embedded entrypoint script is located at `/etc/entrypoint.d/x11vnc` and perf
  | Variable | Default Value | Description |
  | -------- | ------------- | ----------- |
 
-## Healthcheck Scripts
-
-### fluxbox
-
-The embedded healthcheck script is located at `/etc/healthcheck.d/fluxbox` and performs the following actions:
-
-1. Verifies that the fluxbox window manager is operational, if enabled.
-
-### websockify
-
-The embedded healthcheck script is located at `/etc/healthcheck.d/websockify` and performs the following actions:
-
-1. Verifies that the websockify server is operational, if enabled.
-
-### x11vnc
-
-The embedded healthcheck script is located at `/etc/healthcheck.d/x11vnc` and performs the following actions:
-
-1. Verifies that the x11vnc server is operational.
-
-### xvfb
-
-The embedded healthcheck script is located at `/etc/healthcheck.d/xvfb` and performs the following actions:
-
-1. Verifies that the X11 virtual frame buffer server is operational.
-
 ## Standard Configuration
 
 ### Container Layout
