@@ -4,5 +4,6 @@
 #	1. Does not populate login environment variables (e.g. HOME) when performing setuid.
 #	2. Does not support dynamically evaluating environment variable (i.e "HOME=/root" vs "HOME=/home/user").
 #	3. There is no need to re-implement what "su" already does.
-exec /bin/su --command="${DISPLAY:+DISPLAY="${DISPLAY}" }$*" --login "${X11_UNAME}"
+export X11_RUN_AS_ENV_ALLOWLIST="${X11_RUN_AS_ENV_ALLOWLIST:-DISPLAY}"
+exec /bin/su --command="$*" --login --whitelist-environment="${X11_RUN_AS_ENV_ALLOWLIST}" "${X11_UNAME}"
 
